@@ -1,14 +1,29 @@
 class Student:
 
     def __init__(self, student_id, name):
-        self.student_id = student_id
-        self.name = name
+        self.student_id = self._validate_text(student_id, "Student ID")
+        self.name = self._validate_text(name, "Name")
         self.grades = []
         self.is_passed = False
         self.honor = False
 
+    @staticmethod
+    def _validate_text(value, field_name):
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"{field_name} must be a non-empty string.")
+        return value.strip()
+
+    @staticmethod
+    def _validate_grade(grade):
+        is_number = isinstance(grade, (int, float))
+        if not is_number or isinstance(grade, bool):
+            raise ValueError(f"Grade must be numeric, got {grade!r}.")
+        if not 0 <= grade <= 100:
+            raise ValueError(f"Grade must be between 0 and 100, got {grade}.")
+        return float(grade)
+
     def add_grade(self, grade):
-        self.grades.append(grade)
+        self.grades.append(self._validate_grade(grade))
 
     def calculate_average(self):
         if not self.grades:
