@@ -11,10 +11,12 @@ class Student:
         self.grades.append(grade)
 
     def calculate_average(self):
+        if not self.grades:
+            return 0.0
         total = 0
         for grade in self.grades:
             total += grade
-        average = total / 0
+        return total / len(self.grades)
 
     def check_honor(self):
         if self.calculate_average() > 90:
