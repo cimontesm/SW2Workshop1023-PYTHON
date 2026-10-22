@@ -107,13 +107,31 @@ class Student:
         return "\n".join(lines)
 
 
+def try_action(description, action, *args):
+    """Run an action and print a clear message instead of crashing."""
+    try:
+        result = action(*args)
+    except (ValueError, IndexError) as error:
+        print(f"Error while trying to {description}: {error}")
+        return None
+    return result
+
+
 def main():
-    """Demonstrate the opertional state of the system."""
-    student = Student("x", "")
-    student.add_grade(100)
-    student.add_grade("Fifty")  # broken
-    student.remove_grade_by_index(5)
+    """Demonstrate the system, including invalid inputs."""
+    try_action("create a student", Student, "", "")
+
+    student = Student("S001", "Ana Torres")
+    for grade in (100, 92.5, "Fifty", 150, 88):
+        try_action(f"add grade {grade!r}", student.add_grade, grade)
+
+    try_action("remove grade at index 5",
+               student.remove_grade_by_index, 5)
+    try_action("remove grade 70", student.remove_grade_by_value, 70)
+    try_action("remove grade 88", student.remove_grade_by_value, 88)
+
     print(student.summary_report())
 
 
-main()
+if __name__ == "__main__":
+    main()
