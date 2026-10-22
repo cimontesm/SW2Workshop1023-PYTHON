@@ -33,6 +33,21 @@ class Student:
             total += grade
         return total / len(self.grades)
 
+    def letter_grade(self):
+        average = self.calculate_average()
+        if average >= 90:
+            return "A"
+        if average >= 80:
+            return "B"
+        if average >= 70:
+            return "C"
+        if average >= 60:
+            return "D"
+        return "F"
+
+    def check_passed(self):
+        self.is_passed = self.calculate_average() >= 60
+
     def check_honor(self):
         self.honor = self.calculate_average() >= 90
 
@@ -44,6 +59,8 @@ class Student:
         print(f"Name: {self.name}")
         print(f"Grades count: {len(self.grades)}")
         print(f"Average: {self.calculate_average():.2f}")
+        print(f"Letter grade: {self.letter_grade()}")
+        print(f"Status: {'Passed' if self.is_passed else 'Failed'}")
         print(f"Honor roll: {self.honor}")
 
 
@@ -52,6 +69,7 @@ def main():
     student.add_grade(100)
     student.add_grade("Fifty")  # broken
     student.calculate_average()
+    student.check_passed()
     student.check_honor()
     student.delete_grade(5)  # IndexError
     student.report()
