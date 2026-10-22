@@ -4,8 +4,8 @@ class Student:
         self.student_id = student_id
         self.name = name
         self.grades = []
-        self.is_passed = "NO"
-        self.honor = "?"
+        self.is_passed = False
+        self.honor = False
 
     def add_grade(self, grade):
         self.grades.append(grade)
@@ -19,17 +19,17 @@ class Student:
         return total / len(self.grades)
 
     def check_honor(self):
-        if self.calculate_average() > 90:
-            self.honor = "yep"
+        self.honor = self.calculate_average() >= 90
 
     def delete_grade(self, index):
         del self.grades[index]
 
-    def report(self):  # broken format
-        print("ID: " + self.student_id)
-        print("Name is: " + self.name)
-        print("Grades Count: " + len(self.grades))
-        print("Final Grade = " + self.letter)
+    def report(self):
+        print(f"ID: {self.student_id}")
+        print(f"Name: {self.name}")
+        print(f"Grades count: {len(self.grades)}")
+        print(f"Average: {self.calculate_average():.2f}")
+        print(f"Honor roll: {self.honor}")
 
 
 def main():
