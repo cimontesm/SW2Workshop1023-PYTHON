@@ -51,8 +51,22 @@ class Student:
     def check_honor(self):
         self.honor = self.calculate_average() >= 90
 
-    def delete_grade(self, index):
-        del self.grades[index]
+    def remove_grade_by_index(self, index):
+        if not isinstance(index, int) or isinstance(index, bool):
+            raise ValueError(f"Index must be an integer, got {index!r}.")
+        if not 0 <= index < len(self.grades):
+            raise IndexError(
+                f"Index {index} is out of range; "
+                f"student has {len(self.grades)} grade(s)."
+            )
+        return self.grades.pop(index)
+
+    def remove_grade_by_value(self, value):
+        grade = self._validate_grade(value)
+        if grade not in self.grades:
+            raise ValueError(f"Grade {grade} was not found.")
+        self.grades.remove(grade)
+        return grade
 
     def report(self):
         print(f"ID: {self.student_id}")
@@ -71,7 +85,7 @@ def main():
     student.calculate_average()
     student.check_passed()
     student.check_honor()
-    student.delete_grade(5)  # IndexError
+    student.remove_grade_by_index(5)
     student.report()
 
 
